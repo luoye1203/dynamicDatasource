@@ -95,6 +95,11 @@
             <version>${springfox-swagger2.version}</version>
         </dependency>
 
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-websocket</artifactId>
+            <version>1.5.3.RELEASE</version>
+        </dependency>
 
         <dependency>
             <groupId>com.google.code.gson</groupId>
