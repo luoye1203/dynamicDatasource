@@ -1,0 +1,56 @@
+spring:
+  datasource:
+    type: com.zaxxer.hikari.HikariDataSource
+    poolName: hikariPCpool
+    connection-test-query: select 1 from dual
+    hikari:
+        connection-timeout: 30000
+        idle-timeout: 10000
+        max-lifetime: 1800000
+        maximum-pool-size: 10
+        autoCommit: false
+    driver-class-name: oracle.jdbc.driver.OracleDriver
+    url: jdbc:oracle:thin:@10.4.106.3:1521:orcl
+    username: QBFX_NEW
+    password: qbfx_new
+
+  kafka:
+    consumer:
+      bootstrap-servers: 10.4.106.21:9092,10.4.106.22:9092,10.4.106.23:9092,10.4.106.24:9092
+      enable-auto-commit: true
+      auto-commit-interval: 1
+      auto-offset-reset: latest
+      group-id: warning_group_1
+    producer:
+      bootstrap-servers: 10.4.106.21:9092,10.4.106.22:9092,10.4.106.23:9092,10.4.106.24:9092
+      topic: warning
+      acks: all
+      retries: 0
+      batch-size: 4096
+      buffer-memory: 40960
+      linger: 1
+      client-id: socketClient
+
+#server:
+#  tomcat:
+##  max-http-header-size: 655360
+#  port: 9090
+
+mybatis:
+    mapper-locations: classpath:mapper/*.xml
+    config-location: classpath:mapper/mybatisConfig/mybatisConfig.xml
+
+JWT:
+  header: Authorization
+  secret: MasterSecret
+  expiration: 10080
+  tokenHead: "Bearer "
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.xzst.modi.app.cDao.UserDao">
+
+    <select id="findByUsername" resultType="com.xzst.modi.app.dModel.user.User" parameterType="String">
+         select y.dlzh username,y.dlmm password,y.yhxm,y.yhbh,y.SFQY,wmsys.wm_concat(j.role_no) role,y.sfzh sfzh from xtyh_t y left join YH_JS_T j on j.POLICE_NO=y.YHBH where dlzh=#{username, jdbcType=VARCHAR}  group by y.dlzh,y.dlmm,y.yhxm,y.yhbh,y.SFQY,y.sfzh
+    </select>
+
+    <select id="findUserConigByYhbh" resultType="com.xzst.modi.app.dModel.user.UserConfig" parameterType="String">
+        SELECT
+        yhbh userNum,
+        zysz homeConfig ,
+        kshfxsz visualizationAnalysisSetting,
+        bdpz baiduConig,
+        bdbkpz BaiduEncyclopediaConifg
+        FROM XTYH_PZ where yhbh=#{yhbh}
+    </select>
+
+    <select id="findUserInfoByYhbh" resultType="com.xzst.modi.app.dModel.user.UserInfo" parameterType="String">
+        select yhbh,yhxm,dlzh from XTYH_T where YHBH=#{yhbh}
+    </select>
+    <select id="findUserByYhbh" resultType="java.util.HashMap" parameterType="String">
+        select SFZH AS "sfzh",SSDW AS "ssdw",YHXM AS "yhxm" ,DLZH AS "dlzh",YHBH AS "yhbh" from XTYH_T where YHBH=#{yhbh,jdbcType=VARCHAR}
+    </select>
+
+    <insert id="addUserConfig" parameterType="com.xzst.modi.app.dModel.user.UserConfig" >
+          INSERT INTO XTYH_PZ (YHBH,              ZYSZ,                          KSHFXSZ,                                         BDPZ,                           BDBKPZ)
+            VALUES (#{userNum,jdbcType=VARCHAR},#{homeConfig,jdbcType=VARCHAR},#{visualizationAnalysisSetting,jdbcType=VARCHAR},#{baiduConig,jdbcType=VARCHAR},#{BaiduEncyclopediaConifg,jdbcType=VARCHAR})
+
+    </insert>
+
+    <select id="queryTmSysParam" resultType="java.util.HashMap" parameterType="string">
+          select t.pid as "pid",t.pname as "pname",t.pvalue as "pvalue",t.pvalue2 as "pvalue2",t.pdescribe as "pdescribe" from TM_SYS_PARAM t
+        <if test='null != pid and ""!= pid '>
+            where t.pid= #{pid}
+        </if>
+    </select>
+
+</mapper>
