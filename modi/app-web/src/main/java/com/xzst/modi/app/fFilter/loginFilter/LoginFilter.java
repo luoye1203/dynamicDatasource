@@ -25,7 +25,7 @@ public class LoginFilter implements Filter {
 
     @Override
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
-        logger.info(this.getClass().getName()+" 过滤器开始起作用");
+        logger.info(this.getClass().getName()+" 登陆认证失败");
         String token = request.getParameter("token");
         if (StringUtils.isNoneBlank(token)) {
             chain.doFilter(request, response);
