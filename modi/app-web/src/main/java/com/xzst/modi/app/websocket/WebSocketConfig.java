@@ -1,6 +1,7 @@
 package com.xzst.modi.app.websocket;
 
 
+import net.bytebuddy.implementation.bind.annotation.RuntimeType;
 import org.apache.catalina.session.StandardSessionFacade;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -11,6 +12,8 @@ import javax.websocket.HandshakeResponse;
 import javax.websocket.server.HandshakeRequest;
 import javax.websocket.server.ServerEndpointConfig;
 import javax.websocket.server.ServerEndpointConfig.Configurator;
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
 
 @Configuration
 public class WebSocketConfig extends Configurator {

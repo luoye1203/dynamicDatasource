@@ -1,0 +1,9 @@
+1 com.xzst.modi.app.websocket.WebSocketConfig
+    本机测试时 55--59行不能注释掉
+    打包时     55--59行需要注释掉
+
+2 static/demo1.html
+    本机访问 http://localhost:8080/demo1.html
+    服务器访问 http://10.4.106.24:8099/modi-web/demo1.html
+
+    注意修改 19行 的地址
