@@ -47,7 +47,28 @@ JWT:
   tokenHead: "Bearer "
 
 
+#httpclient配置参数
+#最大连接数
+http:
+  maxTotal: 100
+  #并发数
+  defaultMaxPerRoute: 20
+  #创建连接的最长时间
+  connectTimeout: 10000
+  #从连接池中获取到连接的最长时间
+  connectionRequestTimeout: 5000
+  #数据传输的最长时间
+  socketTimeout: 100000
+  #提交请求前测试连接是否可用
+  staleConnectionCheckEnabled: true
 
+
+shumo:
+  token: "Basic bWFzdGVyOm1vZGVsX21hc3Rlcg=="
+  #获取模型列表
+  modelListUrl: "http://10.4.106.7:7047/task/searchAll"
+  #获取模型结果集信息
+  modelInfoUrl: "http://10.4.106.7:7047/task/list"
 
 
 

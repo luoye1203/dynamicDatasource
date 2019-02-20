@@ -1,8 +1,9 @@
 package com.xzst.modi.app.aController;
 
-import com.xzst.modi.app.bService.HumanVehicleAssociationService;
+
+import com.xzst.modi.app.bService.TemplateInfoService;
 import com.xzst.modi.app.dModel.BaseResponse;
-import com.xzst.modi.app.dModel.p2cgl.HVAConfigModel;
+import com.xzst.modi.app.gCommon.JWTUtil;
 import io.swagger.annotations.*;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,49 +14,43 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 
 
-/**
- * lht
- * 2019-2-15 16:22:54
- */
 @RestController
-@RequestMapping("p2cgl")
-public class HumanVehicleAssociationController {
-
-    private static final Logger LOG=Logger.getLogger( HumanVehicleAssociationController.class);
+@RequestMapping("/model")
+public class TemplateInfoController {
+    private static final Logger LOG=Logger.getLogger(TemplateInfoController.class);
 
     @Autowired
-    private HumanVehicleAssociationService humanVehicleAssociationService;
-
+    private TemplateInfoService templateInfoService;
 
     /**
      * 获取所有的模型名
      *
      * @return
      */
-    @RequestMapping(value = "getConfig", method = RequestMethod.GET)
-    @ApiOperation(value = "获取配置记录(只有一条)", notes = "获取配置记录(只有一条) ")
+    @RequestMapping(value = "getModelAndResultByKeyword", method = RequestMethod.GET)
+    @ApiOperation(value = "获取所有的模型名(含结果集)", notes = "获取所有的模型名(含结果集) ")
     @ApiImplicitParams(
             {
-//                    @ApiImplicitParam(name = "keyword", paramType = "query", value = "查询关键字", dataType = "string")
+                    @ApiImplicitParam(name = "keyword", paramType = "query", value = "查询关键字", dataType = "string")
             }
     )
     @ApiResponses(value = {@ApiResponse(code = 201, message = "无数据"), @ApiResponse(code = 202, message = "查询出现异常")})
-    public BaseResponse getConfig( ) {
+    public BaseResponse getModelAndResultByKeyword(String keyword) {
 
         int code = 200;
         String message = "查询成功";
-        HVAConfigModel reData = null;
+        List reList = null;
 
         try {
 
-            reData =humanVehicleAssociationService.getConfig();
+            reList = templateInfoService.getModelAndResultByKeyword(keyword);
 
-            if (reData == null ) {
+            if (reList == null || reList.size() < 1) {
                 code = 201;
                 message = "无数据";
                 return BaseResponse.buildResponse().setCode(code).setMessage(message).build();
             }
-            return BaseResponse.buildResponse().setObj(reData).setCode(code).setMessage(message).build();
+            return BaseResponse.buildResponse().setObj(reList).setCode(code).setMessage(message).build();
         } catch (Exception e) {
             LOG.error(e.getStackTrace(), e);
             code = 202;
@@ -64,9 +59,6 @@ public class HumanVehicleAssociationController {
         }
 
     }
-
-
-
 
 
 }

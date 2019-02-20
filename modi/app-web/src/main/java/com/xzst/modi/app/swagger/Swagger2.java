@@ -65,6 +65,39 @@ public class Swagger2 {
     }
 
 
+    @Bean
+    public Docket templateInfoBean() {
+        return new Docket(DocumentationType.SWAGGER_2)
+                .groupName("templateInfo")
+                .genericModelSubstitutes(DeferredResult.class)
+//                .genericModelSubstitutes(ResponseEntity.class)
+                .useDefaultResponseMessages(false)
+                .forCodeGeneration(true)
+                .pathMapping("/")
+                .select()
+                .paths(PathSelectors.regex("/model/.*"))//过滤的接口
+                .build()
+                .globalOperationParameters(getTokenParam())
+                .apiInfo(detailInfo("模型结果集信息"));
+    }
+
+
+    @Bean
+    public Docket p2cglBean() {
+        return new Docket(DocumentationType.SWAGGER_2)
+                .groupName("p2cgl")
+                .genericModelSubstitutes(DeferredResult.class)
+//                .genericModelSubstitutes(ResponseEntity.class)
+                .useDefaultResponseMessages(false)
+                .forCodeGeneration(true)
+                .pathMapping("/")
+                .select()
+                .paths(PathSelectors.regex("/p2cgl/.*"))//过滤的接口
+                .build()
+                .globalOperationParameters(getTokenParam())
+                .apiInfo(detailInfo("人车关联"));
+    }
+
 
     private ApiInfo detailInfo(String title) {
         return new ApiInfoBuilder()
