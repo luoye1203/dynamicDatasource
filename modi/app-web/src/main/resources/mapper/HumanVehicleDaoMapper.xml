@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.xzst.modi.app.cDao.HumanVehicleAssociationDao">
+
+    <select id="getConfig" resultType="com.xzst.modi.app.dModel.p2cgl.HVAConfigModel" >
+
+    </select>
+
+    <select id="getConfigId" resultType="java.lang.String">
+      SELECT MODI_R2CGL_CONFIG_ID.NEXTVAL FROM  dual
+    </select>
+
+    <insert id="addConfig" parameterType="com.xzst.modi.app.dModel.p2cgl.HVAConfigModel">
+
+        INSERT INTO MODI_R2CGL_CONFIG
+        (ID,                       OPRATORNO,                   OPERTETIME,WORKSTATUS,RESULTSETID,                      RESULTSETNAME,                ISDEL) values (
+        #{id,jdbcType=VARCHAR},   #{opratorNo,jdbcType=VARCHAR},sysdate, 0,           #{resultSetId,jdbcType=VARCHAR},#{resultSetName,jdbcType=VARCHAR},0)
+
+    </insert>
+
+
+    <insert id="addConfigCol" parameterType="com.xzst.modi.app.dModel.p2cgl.HVAConfigColModel">
+
+        INSERT INTO MODI_R2CGL_CONFIG_col
+        (CONFIGID,                        PAGEBYNAME,                   PAGEBYENAME,                      ENAME,                      CNAME,      ORDERID) values (
+         #{configId,jdbcType=VARCHAR}, #{pagebyname,jdbcType=VARCHAR},#{pagebyename,jdbcType=VARCHAR}, #{ename,jdbcType=VARCHAR},     #{cname,jdbcType=VARCHAR},  #{orderid,jdbcType=VARCHAR})
+
+    </insert>
+
+
+
+</mapper>

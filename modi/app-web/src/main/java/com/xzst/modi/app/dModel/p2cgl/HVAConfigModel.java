@@ -1,75 +1,23 @@
 package com.xzst.modi.app.dModel.p2cgl;
 
+import java.util.List;
+
 public class HVAConfigModel {
 
-    private String fugitiveNo;
-    private String fugitiveId;
-    private String fugitiveName;
-    private String relation;
-    private String relationPeopleId;
-    private String trailDesc;
-    private String trailType;
-
+    private String id;
+    private String resultSetId;
+    private String resultSetName;
+    //------
     private String opratorNo;
     private String operteTime;
     private String workStatus;
+    private String isDel;
+
+    private List<HVAConfigColModel> colModel;
 
 
-    public String getFugitiveNo() {
-        return fugitiveNo;
-    }
 
-    public void setFugitiveNo(String fugitiveNo) {
-        this.fugitiveNo = fugitiveNo;
-    }
 
-    public String getFugitiveId() {
-        return fugitiveId;
-    }
-
-    public void setFugitiveId(String fugitiveId) {
-        this.fugitiveId = fugitiveId;
-    }
-
-    public String getFugitiveName() {
-        return fugitiveName;
-    }
-
-    public void setFugitiveName(String fugitiveName) {
-        this.fugitiveName = fugitiveName;
-    }
-
-    public String getRelation() {
-        return relation;
-    }
-
-    public void setRelation(String relation) {
-        this.relation = relation;
-    }
-
-    public String getRelationPeopleId() {
-        return relationPeopleId;
-    }
-
-    public void setRelationPeopleId(String relationPeopleId) {
-        this.relationPeopleId = relationPeopleId;
-    }
-
-    public String getTrailDesc() {
-        return trailDesc;
-    }
-
-    public void setTrailDesc(String trailDesc) {
-        this.trailDesc = trailDesc;
-    }
-
-    public String getTrailType() {
-        return trailType;
-    }
-
-    public void setTrailType(String trailType) {
-        this.trailType = trailType;
-    }
 
     public String getOpratorNo() {
         return opratorNo;
@@ -94,4 +42,47 @@ public class HVAConfigModel {
     public void setWorkStatus(String workStatus) {
         this.workStatus = workStatus;
     }
+
+    public String getIsDel() {
+        return isDel;
+    }
+
+    public void setIsDel(String isDel) {
+        this.isDel = isDel;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public String getResultSetId() {
+        return resultSetId;
+    }
+
+    public void setResultSetId(String resultSetId) {
+        this.resultSetId = resultSetId;
+    }
+
+    public String getResultSetName() {
+        return resultSetName;
+    }
+
+    public void setResultSetName(String resultSetName) {
+        this.resultSetName = resultSetName;
+    }
+
+    public List<HVAConfigColModel> getColModel() {
+        return colModel;
+    }
+
+    public void setColModel(List<HVAConfigColModel> colModel) {
+        this.colModel = colModel;
+    }
+
+
+
 }

@@ -6,6 +6,7 @@ import com.xzst.modi.app.dModel.p2cgl.HVAConfigModel;
 import io.swagger.annotations.*;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
@@ -28,7 +29,7 @@ public class HumanVehicleAssociationController {
 
 
     /**
-     * 获取所有的模型名
+     *
      *
      * @return
      */
@@ -65,6 +66,43 @@ public class HumanVehicleAssociationController {
 
     }
 
+
+    /**
+     *
+     *
+     * @return
+     */
+    @RequestMapping(value = "addConfig", method = RequestMethod.POST)
+    @ApiOperation(value = "添加配置", notes = "添加配置")
+    @ApiImplicitParams(
+            {
+                    @ApiImplicitParam(name = "hvaConfigModel", paramType = "body", value = "参数", dataType = "HVAConfigModel")
+            }
+    )
+    @ApiResponses(value = {@ApiResponse(code = 201, message = "数据已存在"), @ApiResponse(code = 202, message = "操作异常")})
+    public BaseResponse addConfig(@RequestBody HVAConfigModel hvaConfigModel) {
+
+        int code = 200;
+        String message = "添加成功";
+        try {
+
+//            HVAConfigModel model=humanVehicleAssociationService.getConfig();
+//            if(model!=null){
+//                message = "数据已存在";
+//                code = 202;
+//                return BaseResponse.buildResponse().setCode(code).setMessage(message).build();
+//            }
+
+            humanVehicleAssociationService.addConfig(hvaConfigModel);
+            return BaseResponse.buildResponse().setCode(code).setMessage(message).build();
+        } catch (Exception e) {
+            LOG.error(e.getStackTrace(), e);
+            code = 202;
+            message = "操作异常";
+            return BaseResponse.buildResponse().setCode(code).setMessage(message).build();
+        }
+
+    }
 
 
 
