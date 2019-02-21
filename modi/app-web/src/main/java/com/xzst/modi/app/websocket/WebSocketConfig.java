@@ -3,6 +3,9 @@ package com.xzst.modi.app.websocket;
 
 import net.bytebuddy.implementation.bind.annotation.RuntimeType;
 import org.apache.catalina.session.StandardSessionFacade;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnNotWebApplication;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnWebApplication;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.socket.server.standard.ServerEndpointExporter;

@@ -99,6 +99,24 @@ public class Swagger2 {
     }
 
 
+    @Bean
+    public Docket kafka() {
+        return new Docket(DocumentationType.SWAGGER_2)
+                .groupName("kafka模拟发送数据")
+                .genericModelSubstitutes(DeferredResult.class)
+//                .genericModelSubstitutes(ResponseEntity.class)
+                .useDefaultResponseMessages(false)
+                .forCodeGeneration(true)
+                .pathMapping("/")
+                .select()
+                .paths(PathSelectors.regex("/kafka/.*"))//过滤的接口
+                .build()
+//                .globalOperationParameters(getTokenParam())
+                .apiInfo(detailInfo("kafka模拟发送数据"));
+    }
+
+
+
     private ApiInfo detailInfo(String title) {
         return new ApiInfoBuilder()
                 .title(title)//大标题
