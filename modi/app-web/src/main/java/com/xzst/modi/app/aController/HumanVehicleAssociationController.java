@@ -6,10 +6,7 @@ import com.xzst.modi.app.dModel.p2cgl.HVAConfigModel;
 import io.swagger.annotations.*;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -86,12 +83,12 @@ public class HumanVehicleAssociationController {
         String message = "添加成功";
         try {
 
-//            HVAConfigModel model=humanVehicleAssociationService.getConfig();
-//            if(model!=null){
-//                message = "数据已存在";
-//                code = 202;
-//                return BaseResponse.buildResponse().setCode(code).setMessage(message).build();
-//            }
+            HVAConfigModel model=humanVehicleAssociationService.getConfig();
+            if(model!=null){
+                message = "数据已存在";
+                code = 202;
+                return BaseResponse.buildResponse().setCode(code).setMessage(message).build();
+            }
 
             humanVehicleAssociationService.addConfig(hvaConfigModel);
             return BaseResponse.buildResponse().setCode(code).setMessage(message).build();
@@ -104,6 +101,33 @@ public class HumanVehicleAssociationController {
 
     }
 
+    @RequestMapping(value = "getConfigByid", method = RequestMethod.DELETE)
+    @ApiOperation(value = "删除配置", notes = "删除配置 ")
+    @ApiImplicitParams(
+            {
+                    @ApiImplicitParam(name = "configId", paramType = "query", value = "配置ID", dataType = "string")
+            }
+    )
+    @ApiResponses(value = {@ApiResponse(code = 202, message = "操作异常")})
+    public BaseResponse getConfigById(@RequestParam String configId) {
+
+        int code = 200;
+        String message = "操作成功";
+        HVAConfigModel reData = null;
+
+        try {
+
+            humanVehicleAssociationService.delConfig(configId);
+
+            return BaseResponse.buildResponse().setObj(reData).setCode(code).setMessage(message).build();
+        } catch (Exception e) {
+            LOG.error(e.getStackTrace(), e);
+            code = 202;
+            message = "操作异常";
+            return BaseResponse.buildResponse().setCode(code).setMessage(message).build();
+        }
+
+    }
 
 
 

@@ -10,7 +10,6 @@ public class HVAConfigModel {
     //------
     private String opratorNo;
     private String operteTime;
-    private String workStatus;
     private String isDel;
 
     private List<HVAConfigColModel> colModel;
@@ -35,13 +34,6 @@ public class HVAConfigModel {
         this.operteTime = operteTime;
     }
 
-    public String getWorkStatus() {
-        return workStatus;
-    }
-
-    public void setWorkStatus(String workStatus) {
-        this.workStatus = workStatus;
-    }
 
     public String getIsDel() {
         return isDel;

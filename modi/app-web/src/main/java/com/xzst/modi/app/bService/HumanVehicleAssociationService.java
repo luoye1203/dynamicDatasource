@@ -22,8 +22,14 @@ public class HumanVehicleAssociationService {
     private HumanVehicleAssociationDao humanVehicleAssociationDao;
 
     public HVAConfigModel getConfig( ){
+        HVAConfigModel configModel=humanVehicleAssociationDao.getConfig();
+        if(configModel!=null){
+                String configId=configModel.getId();
+                List<HVAConfigColModel> configColModels=humanVehicleAssociationDao.getConfigColById(configId);
+                configModel.setColModel(configColModels);
 
-        return humanVehicleAssociationDao.getConfig();
+        }
+        return configModel;
     }
 
     @Transactional(propagation = Propagation.REQUIRED,rollbackFor = {Exception.class,RuntimeException.class})
@@ -40,8 +46,8 @@ public class HumanVehicleAssociationService {
         }
     }
 
-    public void delConfig(){
-        humanVehicleAssociationDao.delConfig();
+    public void delConfig(String configId){
+        humanVehicleAssociationDao.delConfigById( configId);
     }
     public void updateConfig(HVAConfigModel param){
         humanVehicleAssociationDao.updateConfig(param);

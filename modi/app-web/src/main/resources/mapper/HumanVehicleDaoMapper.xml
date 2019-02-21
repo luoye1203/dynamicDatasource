@@ -3,7 +3,18 @@
 <mapper namespace="com.xzst.modi.app.cDao.HumanVehicleAssociationDao">
 
     <select id="getConfig" resultType="com.xzst.modi.app.dModel.p2cgl.HVAConfigModel" >
+        SELECT ID,
+                   OPRATORNO,
+                   TO_CHAR(OPERTETIME, 'yyyy-mm-dd hh24:mi:ss') AS OPERTETIME,
+                   RESULTSETID,
+                   RESULTSETNAME
 
+          FROM MODI_R2CGL_CONFIG where isdel='0'
+    </select>
+
+    <select id="getConfigColById" resultType="com.xzst.modi.app.dModel.p2cgl.HVAConfigColModel" >
+       SELECT CONFIGID, PAGEBYNAME, PAGEBYENAME, ENAME, CNAME, ORDERID
+                FROM MODI_R2CGL_CONFIG_COL  where  CONFIGID=#{configId,jdbcType=VARCHAR}
     </select>
 
     <select id="getConfigId" resultType="java.lang.String">
@@ -13,8 +24,8 @@
     <insert id="addConfig" parameterType="com.xzst.modi.app.dModel.p2cgl.HVAConfigModel">
 
         INSERT INTO MODI_R2CGL_CONFIG
-        (ID,                       OPRATORNO,                   OPERTETIME,WORKSTATUS,RESULTSETID,                      RESULTSETNAME,                ISDEL) values (
-        #{id,jdbcType=VARCHAR},   #{opratorNo,jdbcType=VARCHAR},sysdate, 0,           #{resultSetId,jdbcType=VARCHAR},#{resultSetName,jdbcType=VARCHAR},0)
+        (ID,                       OPRATORNO,                   OPERTETIME,     RESULTSETID,                      RESULTSETNAME,                ISDEL) values (
+        #{id,jdbcType=VARCHAR},   #{opratorNo,jdbcType=VARCHAR},sysdate,        #{resultSetId,jdbcType=VARCHAR},#{resultSetName,jdbcType=VARCHAR},0)
 
     </insert>
 
@@ -27,6 +38,8 @@
 
     </insert>
 
-
+    <update id="delConfigById" parameterType="java.lang.String">
+        UPDATE MODI_R2CGL_CONFIG t SET t.isdel='1' WHERE t.id=#{configId,jdbcType=VARCHAR}
+    </update>
 
 </mapper>
