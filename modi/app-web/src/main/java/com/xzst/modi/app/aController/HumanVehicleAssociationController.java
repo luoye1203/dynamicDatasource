@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 
 
 /**
@@ -129,6 +130,40 @@ public class HumanVehicleAssociationController {
 
     }
 
+
+
+    @RequestMapping(value = "getFocusCols", method = RequestMethod.GET)
+    @ApiOperation(value = "获取人车关联需要关注的页面字段", notes = "获取人车关联需要关注的页面字段")
+    @ApiImplicitParams(
+            {
+//                    @ApiImplicitParam(name = "keyword", paramType = "query", value = "查询关键字", dataType = "string")
+            }
+    )
+    @ApiResponses(value = {@ApiResponse(code = 201, message = "无数据"), @ApiResponse(code = 202, message = "查询出现异常")})
+    public BaseResponse getFocusCols( ) {
+
+        int code = 200;
+        String message = "查询成功";
+        List<Map<String,String>> reData = null;
+
+        try {
+
+            reData =humanVehicleAssociationService.getFocusCols();
+
+            if (reData == null ) {
+                code = 201;
+                message = "无数据";
+                return BaseResponse.buildResponse().setCode(code).setMessage(message).build();
+            }
+            return BaseResponse.buildResponse().setObj(reData).setCode(code).setMessage(message).build();
+        } catch (Exception e) {
+            LOG.error(e.getStackTrace(), e);
+            code = 202;
+            message = "查询出现异常";
+            return BaseResponse.buildResponse().setCode(code).setMessage(message).build();
+        }
+
+    }
 
 
 }

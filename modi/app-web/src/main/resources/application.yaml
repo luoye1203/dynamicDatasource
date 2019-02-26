@@ -10,19 +10,19 @@ spring:
         maximum-pool-size: 10
         autoCommit: false
     driver-class-name: oracle.jdbc.driver.OracleDriver
-    url: jdbc:oracle:thin:@10.4.106.3:1521:orcl
-    username: QBFX_NEW
-    password: qbfx_new
+    url: jdbc:oracle:thin:@53.80.6.37:1521:orcl
+    username: xzst
+    password: xzst
 
   kafka:
     consumer:
-      bootstrap-servers: 10.4.106.21:9092,10.4.106.22:9092,10.4.106.23:9092,10.4.106.24:9092
+      bootstrap-servers: 53.80.6.45:9092,53.80.6.46:9092,53.80.6.47:9092,53.80.6.48:9092
       enable-auto-commit: true
       auto-commit-interval: 1
       auto-offset-reset: latest
       group-id: modi_g_1
     producer:
-      bootstrap-servers: 10.4.106.21:9092,10.4.106.22:9092,10.4.106.23:9092,10.4.106.24:9092
+      bootstrap-servers: 53.80.6.45:9092,53.80.6.46:9092,53.80.6.47:9092,53.80.6.48:9092
       topic: modi
       acks: all
       retries: 0
@@ -66,9 +66,11 @@ http:
 shumo:
   token: "Basic bWFzdGVyOm1vZGVsX21hc3Rlcg=="
   #获取模型列表
-  modelListUrl: "http://10.4.106.7:7047/task/searchAll"
-  #获取模型结果集信息
-  modelInfoUrl: "http://10.4.106.7:7047/task/list"
+  modelListUrl: "http://53.80.6.36:7047/task/searchAll"
+  #获取模型下所有的结果集
+  resultSetList: "http://53.80.6.36:7047/task/list"
+  #获取结果集的列信息
+  resultSetColInfoUrl: "http://53.80.6.36:7047/task/result/columns?resultId="
 
 
 

@@ -28,8 +28,12 @@ public class TemplateInfoService {
     @Value("${shumo.modelListUrl}")
     private String modelListUrl;
 
-    @Value("${shumo.modelInfoUrl}")
-    private String modelInfoUrl;
+    @Value("${shumo.resultSetList}")
+    private String resultSetList;
+
+
+    @Value("${shumo.resultSetColInfoUrl}")
+    private String resultSetColInfoUrl;
 
     @Value("${shumo.token}")
     private String token;
@@ -169,7 +173,7 @@ public class TemplateInfoService {
 
 
     private Map<String,Map<String, List<Map<String, String>>>> getResultInfoByModelIdAndKeyword(List<String> modelIdList,String keyword) {
-        String url= modelInfoUrl;
+        String url= resultSetList;
         //请求头参数
         Map<String, String> headersMap = new HashMap<>();
         headersMap.put("Authorization", token);
@@ -214,6 +218,41 @@ public class TemplateInfoService {
             LOG.info(e.getMessage());
         }
         return reMap;
+    }
+
+
+
+    public List<Map> getColInfoByResultTableId(String resultTableId){
+        String url = resultSetColInfoUrl+resultTableId;
+        Map<String, String> headersMap = new HashMap<>();
+
+        headersMap.put("Authorization", token);
+        headersMap.put("Content-Type", "application/json; charset=utf-8");
+
+        List<Map> resultSetColInfo=null;
+
+        HttpResult result = null;
+        try {
+            result = httpAPIService.doGet(url,headersMap);
+            if(result==null){
+                throw new Exception("url"+ url+"获取内容为空 请确认...");
+            }
+            if(result.getCode()==200){
+                String dataString=result.getBody();
+                if(StringUtils.isNotBlank(dataString)){
+                    resultSetColInfo=JSON.parseArray(dataString,Map.class);
+                }else{
+                    throw new Exception("url"+ url+"获取内容为空 请确认...");
+                }
+            }else{
+                throw new Exception("url"+ url+"访问失败,失败代码:"+result.getCode()+" 请确认...");
+            }
+        } catch (Exception e) {
+            LOG.info(e.getMessage());
+        }
+
+
+        return  resultSetColInfo;
     }
 
 

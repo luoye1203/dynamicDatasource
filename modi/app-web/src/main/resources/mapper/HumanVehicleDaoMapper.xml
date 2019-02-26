@@ -42,4 +42,18 @@
         UPDATE MODI_R2CGL_CONFIG t SET t.isdel='1' WHERE t.id=#{configId,jdbcType=VARCHAR}
     </update>
 
+
+
+    <insert id="addFugitive" parameterType="com.xzst.modi.app.dModel.p2cgl.FugitiveModel">
+
+        INSERT INTO MODI_R2CGL_CONFIG
+        (ID,                       OPRATORNO,                   OPERTETIME,     RESULTSETID,                      RESULTSETNAME,                ISDEL) values (
+        #{id,jdbcType=VARCHAR},   #{opratorNo,jdbcType=VARCHAR},sysdate,        #{resultSetId,jdbcType=VARCHAR},#{resultSetName,jdbcType=VARCHAR},0)
+
+    </insert>
+
+
+
+
+
 </mapper>

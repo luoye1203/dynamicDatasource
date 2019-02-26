@@ -4,6 +4,7 @@ package com.xzst.modi.app.bService;
 import com.xzst.modi.app.cDao.HumanVehicleAssociationDao;
 import com.xzst.modi.app.dModel.p2cgl.HVAConfigColModel;
 import com.xzst.modi.app.dModel.p2cgl.HVAConfigModel;
+import com.xzst.modi.app.hConfig.HVAcolConfigProperties;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -11,12 +12,15 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class HumanVehicleAssociationService {
 
     private static final Logger LOG=Logger.getLogger(HumanVehicleAssociationService.class);
 
+    @Autowired
+    private HVAcolConfigProperties hvAcolConfigProperties;
 
     @Autowired
     private HumanVehicleAssociationDao humanVehicleAssociationDao;
@@ -54,5 +58,10 @@ public class HumanVehicleAssociationService {
     }
 
 
+
+    public  List<Map<String,String>> getFocusCols(){
+
+        return hvAcolConfigProperties.getFocusCol();
+    }
 
 }

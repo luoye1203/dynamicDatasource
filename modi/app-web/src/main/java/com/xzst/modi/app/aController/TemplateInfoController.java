@@ -61,4 +61,44 @@ public class TemplateInfoController {
     }
 
 
+
+    /**
+     * 根据结果集表的ID获取其所有的字段信息
+     *
+     * @return
+     */
+    @RequestMapping(value = "getColInfoByResultTableId", method = RequestMethod.GET)
+    @ApiOperation(value = "根据结果集表的ID获取其所有的字段信息", notes = "根据结果集表的ID获取其所有的字段信息")
+    @ApiImplicitParams(
+            {
+                    @ApiImplicitParam(name = "resultTableId", paramType = "query", value = "结果集表ID", dataType = "string")
+            }
+    )
+    @ApiResponses(value = {@ApiResponse(code = 201, message = "无数据"), @ApiResponse(code = 202, message = "查询出现异常")})
+    public BaseResponse getColInfoByResultTableId(String resultTableId) {
+
+        int code = 200;
+        String message = "查询成功";
+        List reList = null;
+        try {
+
+            reList = templateInfoService.getColInfoByResultTableId(resultTableId);
+
+            if (reList == null || reList.size() < 1) {
+                code = 201;
+                message = "无数据";
+                return BaseResponse.buildResponse().setCode(code).setMessage(message).build();
+            }
+            return BaseResponse.buildResponse().setObj(reList).setCode(code).setMessage(message).build();
+        } catch (Exception e) {
+            LOG.error(e.getStackTrace(), e);
+            code = 202;
+            message = "查询出现异常";
+            return BaseResponse.buildResponse().setCode(code).setMessage(message).build();
+        }
+
+    }
+
+
+
 }

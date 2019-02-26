@@ -20,4 +20,11 @@ public interface HumanVehicleAssociationDao {
 
     public void addConfigCol(HVAConfigColModel param);
 
+
+
+
+
+    public void addFugitive();
+    public void addFugitiveRelationShiper();
+
 }

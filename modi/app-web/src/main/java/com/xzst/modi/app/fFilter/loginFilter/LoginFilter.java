@@ -14,8 +14,8 @@ import java.io.IOException;
 import java.io.PrintWriter;
 
 @WebFilter(filterName = "loginFilter",
-//        urlPatterns = {"/filter/*", "/kafka/*"})
-        urlPatterns = {"/swagger/*"})
+        urlPatterns = { "/kafka/*"})
+//        urlPatterns = {"/swagger/*"})
 public class LoginFilter implements Filter {
     private final Logger logger = Logger.getLogger(this.getClass());
     @Override
