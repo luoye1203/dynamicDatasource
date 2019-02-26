@@ -59,7 +59,7 @@ public class HumanVehicleAssociationService {
 
 
 
-    public  List<Map<String,String>> getFocusCols(){
+    public  List<Map<String,String>> getPageFocusCols(){
 
         return hvAcolConfigProperties.getFocusCol();
     }

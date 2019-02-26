@@ -132,7 +132,7 @@ public class HumanVehicleAssociationController {
 
 
 
-    @RequestMapping(value = "getFocusCols", method = RequestMethod.GET)
+    @RequestMapping(value = "getPageFocusCols", method = RequestMethod.GET)
     @ApiOperation(value = "获取人车关联需要关注的页面字段", notes = "获取人车关联需要关注的页面字段")
     @ApiImplicitParams(
             {
@@ -140,7 +140,7 @@ public class HumanVehicleAssociationController {
             }
     )
     @ApiResponses(value = {@ApiResponse(code = 201, message = "无数据"), @ApiResponse(code = 202, message = "查询出现异常")})
-    public BaseResponse getFocusCols( ) {
+    public BaseResponse getPageFocusCols( ) {
 
         int code = 200;
         String message = "查询成功";
@@ -148,7 +148,7 @@ public class HumanVehicleAssociationController {
 
         try {
 
-            reData =humanVehicleAssociationService.getFocusCols();
+            reData =humanVehicleAssociationService.getPageFocusCols();
 
             if (reData == null ) {
                 code = 201;
@@ -164,6 +164,9 @@ public class HumanVehicleAssociationController {
         }
 
     }
+
+
+
 
 
 }
