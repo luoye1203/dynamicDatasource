@@ -1,6 +1,9 @@
 package com.xzst.modi.app.websocket;
 
+import com.alibaba.fastjson.JSON;
+import com.xzst.modi.app.hConfig.WebsocketInformTypeConifg;
 import org.apache.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import javax.websocket.*;
@@ -11,6 +14,10 @@ import java.util.concurrent.CopyOnWriteArraySet;
 @ServerEndpoint(value = "/modi-websocket", configurator = WebSocketConfig.class)
 @Component
 public class WebSocket {
+
+    @Autowired
+    private WebsocketInformTypeConifg websocketInformTypeConifg;
+
     private final static Logger LOG = Logger.getLogger(WebSocket.class);
 
     //静态变量，用来记录当前在线连接数。应该把它设计成线程安全的。
@@ -93,23 +100,12 @@ public class WebSocket {
     /**
      * 群发自定义消息
      */
-    public static void sendInfoToAllSession() {
+    public  void sendInfoToAllSession() {
 
         try {
             for (WebSocket item : webSocketSet) {
                 try {
-                    String userId = item.session.getUserProperties().get("userId").toString();
-                    String roleNo = item.session.getUserProperties().get("roleNo").toString();
-                    String clientIP = item.session.getUserProperties().get("clientIP").toString();
-                    String sessionID = item.session.getId();
-                    if ("0".equals(roleNo)) {//管理员 推送所有消息
-
-                    } else {//普通用户 只发送管理员和本人创建的消息
-
-
-                    }
-
-
+                   item.sendMessage(JSON.toJSONString(websocketInformTypeConifg.getInformType()));
                 } catch (Exception e) {
                     e.printStackTrace();
                     continue;

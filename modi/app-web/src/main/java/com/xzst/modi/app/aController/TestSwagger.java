@@ -3,6 +3,7 @@ package com.xzst.modi.app.aController;
 
 import com.xzst.modi.app.dModel.BaseResponse;
 import com.xzst.modi.app.hConfig.HVAcolConfigProperties;
+import com.xzst.modi.app.hConfig.WebsocketInformTypeConifg;
 import io.swagger.annotations.*;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,7 +20,7 @@ public class TestSwagger {
     private final Logger logger = Logger.getLogger(this.getClass());
 
     @Autowired
-    private HVAcolConfigProperties hvAcolConfig;
+    private WebsocketInformTypeConifg websocketInformTypeConifg;
 
 
     @RequestMapping(value = "/send", method = RequestMethod.GET)
@@ -33,7 +34,7 @@ public class TestSwagger {
     public BaseResponse sendKafka(@RequestParam String message) {
         try {
             logger.info("测试成功");
-            logger.info(hvAcolConfig);
+            logger.info(websocketInformTypeConifg);
         } catch (Exception e) {
             logger.error("发送kafka失败", e);
             return BaseResponse.buildResponse().setCode(200).setMessage("发送失败").build();

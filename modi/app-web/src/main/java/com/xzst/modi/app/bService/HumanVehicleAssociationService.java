@@ -3,18 +3,16 @@ package com.xzst.modi.app.bService;
 
 import com.xzst.modi.app.cDao.HumanVehicleAssociationDao;
 import com.xzst.modi.app.dModel.ConsumerMessageBean;
-import com.xzst.modi.app.dModel.p2cgl.FugitiveModel;
-import com.xzst.modi.app.dModel.p2cgl.FugitiveRelationShiperModel;
-import com.xzst.modi.app.dModel.p2cgl.HVAConfigColModel;
-import com.xzst.modi.app.dModel.p2cgl.HVAConfigModel;
+import com.xzst.modi.app.dModel.p2cgl.*;
+import com.xzst.modi.app.gCommon.PageModel;
 import com.xzst.modi.app.hConfig.HVAcolConfigProperties;
+import com.xzst.modi.app.websocket.WebSocket;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.swing.plaf.PanelUI;
 import java.util.List;
 import java.util.Map;
 
@@ -28,6 +26,11 @@ public class HumanVehicleAssociationService {
 
     @Autowired
     private HumanVehicleAssociationDao humanVehicleAssociationDao;
+
+    @Autowired
+    private WebSocket webSocket;
+
+
 
     public HVAConfigModel getConfig() {
         HVAConfigModel configModel = humanVehicleAssociationDao.getConfig();
@@ -127,40 +130,52 @@ public class HumanVehicleAssociationService {
             this.humanVehicleAssociationDao.addFugitiveRelationShiper(fugitiveRelationShiperModel);
         }
 
+        //通知前端
+        webSocket.sendInfoToAllSession();
+
     }
 
 
-    public List<FugitiveModel> getFugitiveModels(String date) {
-        List<String> fugitiveIdList=this.humanVehicleAssociationDao.getFugitiveIdsByDate(date);
-        if(fugitiveIdList!=null&&fugitiveIdList.size()>0){
-            List<FugitiveModel> fugitiveModelList = this.humanVehicleAssociationDao.getFugitiveModels(fugitiveIdList);
-            for (FugitiveModel fugitiveModel : fugitiveModelList) {
-                String fugitiveId = fugitiveModel.getFugitiveId();
-                List<FugitiveRelationShiperModel> fugitiveRelationShiperModelList = this.humanVehicleAssociationDao.getFugitiveRelationShiperByFugitiveId(date,fugitiveId);
-                fugitiveModel.setRelationShiperModels(fugitiveRelationShiperModelList);
+    public PageModel<FugitiveModel> getFugitiveModels(FugitiveModelPageParams params) {
+
+        try {
+            List<String> fugitiveIdList = this.humanVehicleAssociationDao.getFugitiveIdsByDate(params.getDate());
+            params.setFugitiveIdList(fugitiveIdList);
+            if (fugitiveIdList != null && fugitiveIdList.size() > 0) {
+
+                PageModel<FugitiveModel> pageModel = this.humanVehicleAssociationDao.getFugitiveModelsByPage(params);
+
+                for (FugitiveModel fugitiveModel : pageModel.getRecords()) {
+                    String fugitiveId = fugitiveModel.getFugitiveId();
+                    List<FugitiveRelationShiperModel> fugitiveRelationShiperModelList = this.humanVehicleAssociationDao.getFugitiveRelationShiperByFugitiveId(params.getDate(), fugitiveId);
+                    fugitiveModel.setRelationShiperModels(fugitiveRelationShiperModelList);
+                }
+                return pageModel;
+            } else {
+                return null;
             }
-            return fugitiveModelList;
-        }else{
-            return null;
+        } catch (Exception e) {
+            e.printStackTrace();
         }
 
+
+        return null;
     }
 
 
-    public List<Map<String,Object>> getHvaTop20(String date){
-        List<Map<String,Object>> top20=this.humanVehicleAssociationDao.getHvaTop20(date);
-        for (Map<String,Object> map: top20) {
-            String fugitiveId=map.get("FUGITIVEID").toString();
-            LOG.info(fugitiveId);
-            List<Map<String,String>> topDetail=this.humanVehicleAssociationDao.getHvaTop20DetailByFugitiveId(date,fugitiveId);
-            map.put("detail",topDetail);
+    public List<Map<String, Object>> getHvaTop20(String date) {
+        List<Map<String, Object>> top20 = this.humanVehicleAssociationDao.getHvaTop20(date);
+        for (Map<String, Object> map : top20) {
+            String fugitiveId = map.get("FUGITIVEID").toString();
+            List<Map<String, String>> topDetail = this.humanVehicleAssociationDao.getHvaTop20DetailByFugitiveId(date, fugitiveId);
+            map.put("detail", topDetail);
         }
         return top20;
 
     }
 
 
-    public void archivedFugitive(String id,String archivedReason,String archivedOpertatorNo){
-        this.humanVehicleAssociationDao.archivedFugitive(id,archivedReason,archivedOpertatorNo);
+    public void archivedFugitive(String id, String archivedReason, String archivedOpertatorNo) {
+        this.humanVehicleAssociationDao.archivedFugitive(id, archivedReason, archivedOpertatorNo);
     }
 }

@@ -1,9 +1,7 @@
 package com.xzst.modi.app.cDao;
 
-import com.xzst.modi.app.dModel.p2cgl.FugitiveModel;
-import com.xzst.modi.app.dModel.p2cgl.FugitiveRelationShiperModel;
-import com.xzst.modi.app.dModel.p2cgl.HVAConfigColModel;
-import com.xzst.modi.app.dModel.p2cgl.HVAConfigModel;
+import com.xzst.modi.app.dModel.p2cgl.*;
+import com.xzst.modi.app.gCommon.PageModel;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
@@ -33,7 +31,7 @@ public interface HumanVehicleAssociationDao {
     public void addFugitive(FugitiveModel model);
     public void addFugitiveRelationShiper(FugitiveRelationShiperModel fugitiveRelationShiperModel);
 
-    public List<FugitiveModel> getFugitiveModels(List<String> fugitiveIdList);
+
 
     public List<FugitiveRelationShiperModel> getFugitiveRelationShiperByFugitiveId(@Param("date") String date,@Param("fugitiveId")String fugitiveId);
 
@@ -43,5 +41,18 @@ public interface HumanVehicleAssociationDao {
     public List<String> getFugitiveIdsByDate(@Param("date") String date);
 
     public void archivedFugitive(@Param("id")String id,@Param("archivedReason")String archivedReason,@Param("archivedOpertatorNo")String archivedOpertatorNo);
+
+
+
+    public Long getFugitiveModelsCount(List<String> fugitiveIdList);
+    public List<FugitiveModel> getFugitiveModels(FugitiveModelPageParams pageParams);
+    default PageModel<FugitiveModel> getFugitiveModelsByPage(final FugitiveModelPageParams params) throws Exception {
+        final PageModel<FugitiveModel> result = new PageModel<>(params.getPageNow(), params.getPageSize());
+        result.setCount(getFugitiveModelsCount(params.getFugitiveIdList()));
+        result.setRecords(getFugitiveModels(params));
+        return result;
+    }
+
+
 
 }

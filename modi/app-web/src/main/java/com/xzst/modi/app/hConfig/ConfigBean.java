@@ -16,7 +16,7 @@ public class ConfigBean {
         PropertySourcesPlaceholderConfigurer configurer = new PropertySourcesPlaceholderConfigurer();
         YamlPropertiesFactoryBean yaml = new YamlPropertiesFactoryBean();
 //        yaml.setResources(new FileSystemResource("classpath:r2cgl.yaml"));//File引入
-		yaml.setResources(new ClassPathResource("r2cgl.yaml"));//class引入
+		yaml.setResources(new ClassPathResource("other.yaml"));//class引入
         configurer.setProperties(yaml.getObject());
         return configurer;
     }

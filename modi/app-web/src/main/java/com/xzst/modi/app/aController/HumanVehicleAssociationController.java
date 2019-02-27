@@ -3,8 +3,10 @@ package com.xzst.modi.app.aController;
 import com.xzst.modi.app.bService.HumanVehicleAssociationService;
 import com.xzst.modi.app.dModel.BaseResponse;
 import com.xzst.modi.app.dModel.p2cgl.FugitiveModel;
+import com.xzst.modi.app.dModel.p2cgl.FugitiveModelPageParams;
 import com.xzst.modi.app.dModel.p2cgl.HVAConfigModel;
 import com.xzst.modi.app.gCommon.JWTUtil;
+import com.xzst.modi.app.gCommon.PageModel;
 import io.swagger.annotations.*;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -209,25 +211,25 @@ public class HumanVehicleAssociationController {
 
 
 
-    @RequestMapping(value = "getFugitiveModels", method = RequestMethod.GET)
+    @RequestMapping(value = "getFugitiveModels", method = RequestMethod.POST)
     @ApiOperation(value = "获取某日人车关联所有数据", notes = "获取某日人车关联所有数据")
     @ApiImplicitParams(
             {
-                    @ApiImplicitParam(name = "date", paramType = "query", value = "查询日期(2019-02-27)", dataType = "string")
+                    @ApiImplicitParam(name = "params", paramType = "body", value = "查询参数", dataType = "FugitiveModelPageParams")
             }
     )
     @ApiResponses(value = {@ApiResponse(code = 201, message = "无数据"), @ApiResponse(code = 202, message = "查询出现异常")})
-    public BaseResponse getFugitiveModels(@RequestParam String date) {
+    public BaseResponse getFugitiveModels(@RequestBody FugitiveModelPageParams params) {
 
         int code = 200;
         String message = "查询成功";
-        List<FugitiveModel> reData = null;
+        PageModel<FugitiveModel> reData = null;
 
         try {
 
-            reData =humanVehicleAssociationService.getFugitiveModels(date);
+            reData =humanVehicleAssociationService.getFugitiveModels(params);
 
-            if (reData == null ) {
+            if (reData == null || reData.getRecords().size()==0 ) {
                 code = 201;
                 message = "无数据";
                 return BaseResponse.buildResponse().setCode(code).setMessage(message).build();

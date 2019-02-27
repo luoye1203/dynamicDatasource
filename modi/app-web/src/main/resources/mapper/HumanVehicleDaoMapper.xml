@@ -81,22 +81,7 @@
              WHERE TO_CHAR(T.INSERTTIME, 'yyyy-MM-dd') = #{date,jdbcType=VARCHAR}
     </select>
 
-    <select id="getFugitiveModels" parameterType="java.util.List" resultType="com.xzst.modi.app.dModel.p2cgl.FugitiveModel">
 
-        SELECT t.id           as "id",
-               T.FUGITIVENO   AS "fugitiveNo",
-               T.FUGITIVEID   AS "fugitiveId",
-               T.FUGITIVENAME AS "fugitiveName",
-               T.ISARCHIVED   AS "isArchived",
-               T.ARCHIVEDREASON AS "archivedReason"
-          FROM MODI_R2CGL_FUGITIVE T
-          WHERE  T.FUGITIVEID IN
-          <foreach collection="list" index="index" item="item" open="(" separator="," close=")">
-              #{item,jdbcType=VARCHAR}
-          </foreach>
-         AND t.ISARCHIVED='0'
-
-    </select>
 
     <select id="getFugitiveRelationShiperByFugitiveId" resultType="com.xzst.modi.app.dModel.p2cgl.FugitiveRelationShiperModel">
 
@@ -126,6 +111,7 @@
             ORDER BY COUNT_V DESC) M,
             MODI_R2CGL_FUGITIVE N
             WHERE M.FUGITIVEID = N.FUGITIVEID
+            and n.ISARCHIVED='0'
             AND ROWNUM <![CDATA[  <= ]]> 20
     </select>
 
@@ -143,5 +129,36 @@
         UPDATE MODI_R2CGL_FUGITIVE t SET t.ISARCHIVED='1', t.ARCHIVEDREASON=#{archivedReason,jdbcType=VARCHAR},t.ARCHIVEDOPERTATORNO=#{archivedOpertatorNo,jdbcType=VARCHAR}  WHERE t.id=#{id,jdbcType=VARCHAR}
     </update>
 
+    <select id="getFugitiveModelsCount" resultType="java.lang.Long">
+        SELECT COUNT(*)
+        FROM MODI_R2CGL_FUGITIVE T
+        WHERE  T.FUGITIVEID IN
+        <foreach collection="list" index="index" item="item" open="(" separator="," close=")">
+            #{item,jdbcType=VARCHAR}
+        </foreach>
+        AND t.ISARCHIVED='0'
+    </select>
 
+
+    <select id="getFugitiveModels" parameterType="java.util.List" resultType="com.xzst.modi.app.dModel.p2cgl.FugitiveModel">
+        SELECT *
+        FROM (SELECT A.*, ROWNUM RN
+        FROM (
+            SELECT t.id as "id",
+            T.FUGITIVENO AS "fugitiveNo",
+            T.FUGITIVEID AS "fugitiveId",
+            T.FUGITIVENAME AS "fugitiveName",
+            T.ISARCHIVED AS "isArchived",
+            T.ARCHIVEDREASON AS "archivedReason"
+            FROM MODI_R2CGL_FUGITIVE T
+            WHERE T.FUGITIVEID IN
+            <foreach collection="fugitiveIdList" index="index" item="item" open="(" separator="," close=")">
+                #{item,jdbcType=VARCHAR}
+            </foreach>
+            AND t.ISARCHIVED= '0'
+        ) A
+        <![CDATA[   WHERE ROWNUM <= ]]>  ( #{pageNow , jdbcType = INTEGER }*#{pageSize  , jdbcType = INTEGER}))
+        WHERE <![CDATA[  RN >  ]]>  ( (#{pageNow , jdbcType = INTEGER}-1)*#{pageSize , jdbcType = INTEGER})
+
+    </select>
 </mapper>

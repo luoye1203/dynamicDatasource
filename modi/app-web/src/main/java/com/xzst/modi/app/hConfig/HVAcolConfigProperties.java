@@ -7,7 +7,7 @@ import java.util.List;
 import java.util.Map;
 
 @Component
-@ConfigurationProperties(prefix = "havConfig")
+@ConfigurationProperties(prefix = "other.havConfig")
 public class HVAcolConfigProperties {
     private List<Map<String, String>> focusCol;
 
