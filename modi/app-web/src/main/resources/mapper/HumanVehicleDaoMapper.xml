@@ -17,9 +17,25 @@
                 FROM MODI_R2CGL_CONFIG_COL  where  CONFIGID=#{configId,jdbcType=VARCHAR}
     </select>
 
-    <select id="getConfigId" resultType="java.lang.String">
+    <select id="getConfigIdFromSeq" resultType="java.lang.String">
       SELECT MODI_R2CGL_CONFIG_ID.NEXTVAL FROM  dual
     </select>
+
+    <select id="getConfigIdByResultSetId" resultType="java.lang.String" parameterType="java.lang.String">
+
+        SELECT t.id FROM modi_r2cgl_config  t WHERE t.resultsetid=#{resultSetId,jdbcType=VARCHAR} and t.isdel='0'
+    </select>
+
+    <select id="getConfigColsByConfigId" parameterType="java.lang.String">
+        SELECT t.pagebyename,t.ename FROM modi_r2cgl_config_col t WHERE t.configid=#{configId,jdbcType=VARCHAR} ORDER BY t.orderid ;
+
+    </select>
+
+    <select id="getFugitiveByPersonId" parameterType="java.lang.String" resultType="java.util.Map">
+
+        SELECT * FROM  modi_r2cgl_fugitive t WHERE t.fugitiveid=#{personId,jdbcType=VARCHAR}
+    </select>
+
 
     <insert id="addConfig" parameterType="com.xzst.modi.app.dModel.p2cgl.HVAConfigModel">
 
@@ -45,14 +61,82 @@
 
 
     <insert id="addFugitive" parameterType="com.xzst.modi.app.dModel.p2cgl.FugitiveModel">
+        INSERT INTO MODI_R2CGL_FUGITIVE
+          (ID,                              FUGITIVENO,                    FUGITIVEID,                   FUGITIVENAME,                   ISARCHIVED,           )
+        VALUES
+          (modi_r2cgl_fugitive_seq.nextval,#{fugitiveNo,jdbcType=VARCHAR},#{fugitiveId,jdbcType=VARCHAR},#{fugitiveName,jdbcType=VARCHAR},      '0' ,         )
+    </insert>
 
-        INSERT INTO MODI_R2CGL_CONFIG
-        (ID,                       OPRATORNO,                   OPERTETIME,     RESULTSETID,                      RESULTSETNAME,                ISDEL) values (
-        #{id,jdbcType=VARCHAR},   #{opratorNo,jdbcType=VARCHAR},sysdate,        #{resultSetId,jdbcType=VARCHAR},#{resultSetName,jdbcType=VARCHAR},0)
-
+    <insert id="addFugitiveRelationShiper" parameterType="com.xzst.modi.app.dModel.p2cgl.FugitiveRelationShiperModel">
+        INSERT INTO MODI_R2CGL_FUGITIVE_RSER
+              (ID,                                  FUGITIVEID,                     RELATIONSHIP,                       RELATIONSHIPERID,                 TRAILDESC,                        TRAILTYPE,                    TRAILTIME,                      LAT,                           LON)
+            VALUES
+              (MODI_R2CGL_FUGITIVE_RSER_SEQ.NEXTVAL,#{fugitiveId,jdbcType=VARCHAR},#{relationShip,jdbcType=VARCHAR},#{relationShiperId,jdbcType=VARCHAR},#{trailDesc,jdbcType=VARCHAR}, #{trailType,jdbcType=VARCHAR}, #{trailTime,jdbcType=VARCHAR},#{lat,jdbcType=VARCHAR}, #{lon,jdbcType=VARCHAR},                     )
     </insert>
 
 
+    <select id="getFugitiveIdsByDate" parameterType="java.lang.String" resultType="java.lang.String">
+        SELECT DISTINCT T.FUGITIVEID
+              FROM MODI_R2CGL_FUGITIVE_RSER T
+             WHERE TO_CHAR(T.INSERTTIME, 'yyyy-MM-dd') = #{date,jdbcType=VARCHAR}
+    </select>
+
+    <select id="getFugitiveModels" parameterType="java.util.List" resultType="com.xzst.modi.app.dModel.p2cgl.FugitiveModel">
+
+        SELECT t.id           as "id",
+               T.FUGITIVENO   AS "fugitiveNo",
+               T.FUGITIVEID   AS "fugitiveId",
+               T.FUGITIVENAME AS "fugitiveName",
+               T.ISARCHIVED   AS "isArchived",
+               T.ARCHIVEDREASON AS "archivedReason"
+          FROM MODI_R2CGL_FUGITIVE T
+          WHERE T.FUGITIVEID IN
+          <foreach collection="list" index="index" item="item" open="(" separator="," close=")">
+              #{item,jdbcType=VARCHAR}
+          </foreach>
+
+    </select>
+
+    <select id="getFugitiveRelationShiperByFugitiveId" resultType="com.xzst.modi.app.dModel.p2cgl.FugitiveRelationShiperModel">
+
+        SELECT    ID               AS "id",
+                   FUGITIVEID       AS "fugitiveId",
+                   RELATIONSHIP     AS "relationShip",
+                   RELATIONSHIPERID AS "relationShiperId",
+                   TRAILDESC        AS "trailDesc",
+                   TRAILTYPE        AS "trailType",
+                   TRAILTIME        AS "trailTime",
+                   LAT              AS "lat",
+                   LON              AS "lon"
+          FROM MODI_R2CGL_FUGITIVE_RSER T
+          where t.FUGITIVEID=#{fugitiveId,jdbcType=VARCHAR}
+          and to_char(t.inserttime,'yyyy-MM-dd')=#{date,jdbcType=VARCHAR}
+
+    </select>
+
+
+    <select id="getHvaTop20" parameterType="java.lang.String" resultType="java.util.Map">
+        SELECT M.FUGITIVEID, N.FUGITIVENAME, M.COUNT_V
+            FROM
+            (SELECT T.FUGITIVEID, COUNT(*) AS COUNT_V
+            FROM MODI_R2CGL_FUGITIVE_RSER T
+            WHERE to_char(t.inserttime,'yyyy-MM-dd')=#{date,jdbcType=VARCHAR}
+            GROUP BY T.FUGITIVEID
+            ORDER BY COUNT_V DESC) M,
+            MODI_R2CGL_FUGITIVE N
+            WHERE M.FUGITIVEID = N.FUGITIVEID
+            AND ROWNUM <![CDATA[  <= ]]> 20
+    </select>
+
+    <select id="getHvaTop20DetailByFugitiveId" parameterType="java.lang.String" resultType="java.util.Map">
+        SELECT T.RELATIONSHIP, COUNT(*) AS COUNT_D
+          FROM MODI_R2CGL_FUGITIVE_RSER T
+         WHERE TO_CHAR(T.INSERTTIME, 'yyyy-MM-dd') =#{date,jdbcType=VARCHAR}
+           AND T.FUGITIVEID =#{fugitiveId,jdbcType=VARCHAR}
+         GROUP BY T.RELATIONSHIP
+         ORDER BY COUNT_D
+
+    </select>
 
 
 

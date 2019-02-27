@@ -2,6 +2,7 @@ package com.xzst.modi.app.aController;
 
 import com.xzst.modi.app.bService.HumanVehicleAssociationService;
 import com.xzst.modi.app.dModel.BaseResponse;
+import com.xzst.modi.app.dModel.p2cgl.FugitiveModel;
 import com.xzst.modi.app.dModel.p2cgl.HVAConfigModel;
 import io.swagger.annotations.*;
 import org.apache.log4j.Logger;
@@ -102,7 +103,7 @@ public class HumanVehicleAssociationController {
 
     }
 
-    @RequestMapping(value = "getConfigByid", method = RequestMethod.DELETE)
+    @RequestMapping(value = "delConfigByid", method = RequestMethod.DELETE)
     @ApiOperation(value = "删除配置", notes = "删除配置 ")
     @ApiImplicitParams(
             {
@@ -164,6 +165,80 @@ public class HumanVehicleAssociationController {
         }
 
     }
+
+
+
+    @RequestMapping(value = "getHvaTop20", method = RequestMethod.GET)
+    @ApiOperation(value = "获取某日期下前20名", notes = "获取某日期下前20名")
+    @ApiImplicitParams(
+            {
+                    @ApiImplicitParam(name = "date", paramType = "query", value = "查询日期(2019-02-27)", dataType = "string")
+            }
+    )
+    @ApiResponses(value = {@ApiResponse(code = 201, message = "无数据"), @ApiResponse(code = 202, message = "查询出现异常")})
+    public BaseResponse getHvaTop20(@RequestParam String date) {
+
+        int code = 200;
+        String message = "查询成功";
+        List<Map<String,Object>> reData = null;
+
+        try {
+
+            reData =humanVehicleAssociationService.getHvaTop20(date);
+
+            if (reData == null || reData.size()<1 ) {
+                code = 201;
+                message = "无数据";
+                return BaseResponse.buildResponse().setCode(code).setMessage(message).build();
+            }
+            return BaseResponse.buildResponse().setObj(reData).setCode(code).setMessage(message).build();
+        } catch (Exception e) {
+            LOG.error(e.getStackTrace(), e);
+            code = 202;
+            message = "查询出现异常";
+            return BaseResponse.buildResponse().setCode(code).setMessage(message).build();
+        }
+
+    }
+
+
+
+
+
+    @RequestMapping(value = "getFugitiveModels", method = RequestMethod.GET)
+    @ApiOperation(value = "获取某日人车关联所有数据", notes = "获取某日人车关联所有数据")
+    @ApiImplicitParams(
+            {
+                    @ApiImplicitParam(name = "date", paramType = "query", value = "查询日期(2019-02-27)", dataType = "string")
+            }
+    )
+    @ApiResponses(value = {@ApiResponse(code = 201, message = "无数据"), @ApiResponse(code = 202, message = "查询出现异常")})
+    public BaseResponse getFugitiveModels(@RequestParam String date) {
+
+        int code = 200;
+        String message = "查询成功";
+        List<FugitiveModel> reData = null;
+
+        try {
+
+            reData =humanVehicleAssociationService.getFugitiveModels(date);
+
+            if (reData == null ) {
+                code = 201;
+                message = "无数据";
+                return BaseResponse.buildResponse().setCode(code).setMessage(message).build();
+            }
+            return BaseResponse.buildResponse().setObj(reData).setCode(code).setMessage(message).build();
+        } catch (Exception e) {
+            LOG.error(e.getStackTrace(), e);
+            code = 202;
+            message = "查询出现异常";
+            return BaseResponse.buildResponse().setCode(code).setMessage(message).build();
+        }
+
+    }
+
+
 
 
 

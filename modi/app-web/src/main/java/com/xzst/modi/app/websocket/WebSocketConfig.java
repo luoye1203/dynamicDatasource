@@ -55,11 +55,11 @@ public class WebSocketConfig extends Configurator {
 
 	//这个对象说一下，springboot开发时使用,打包时注释掉
 
-	@Bean
-	public ServerEndpointExporter serverEndpointExporter() {
-
-		return new ServerEndpointExporter();
-	}
+//	@Bean
+//	public ServerEndpointExporter serverEndpointExporter() {
+//
+//		return new ServerEndpointExporter();
+//	}
 
 
 
