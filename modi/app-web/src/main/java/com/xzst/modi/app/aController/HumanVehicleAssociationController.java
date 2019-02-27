@@ -4,6 +4,7 @@ import com.xzst.modi.app.bService.HumanVehicleAssociationService;
 import com.xzst.modi.app.dModel.BaseResponse;
 import com.xzst.modi.app.dModel.p2cgl.FugitiveModel;
 import com.xzst.modi.app.dModel.p2cgl.HVAConfigModel;
+import com.xzst.modi.app.gCommon.JWTUtil;
 import io.swagger.annotations.*;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,6 +26,9 @@ public class HumanVehicleAssociationController {
 
     @Autowired
     private HumanVehicleAssociationService humanVehicleAssociationService;
+
+    @Autowired
+    private JWTUtil jwtUtil;
 
 
     /**
@@ -238,6 +242,34 @@ public class HumanVehicleAssociationController {
 
     }
 
+    @RequestMapping(value = "archivedFugitive", method = RequestMethod.GET)
+    @ApiOperation(value = "归档在逃人员", notes = "归档在逃人员")
+    @ApiImplicitParams(
+            {
+                    @ApiImplicitParam(name = "id", paramType = "query", value = "id", dataType = "string"),
+                    @ApiImplicitParam(name = "archivedReason", paramType = "query", value = "归档原因", dataType = "string"),
+            }
+    )
+    @ApiResponses(value = { @ApiResponse(code = 202, message = "操作异常")})
+    public BaseResponse archivedFugitive(@RequestParam String id,@RequestParam String archivedReason) {
+
+        int code = 200;
+        String message = "操作成功";
+
+        try {
+            String yhbh=jwtUtil.getYhbhFromToken();
+            humanVehicleAssociationService.archivedFugitive(id,archivedReason,yhbh);
+
+
+            return BaseResponse.buildResponse().setCode(code).setMessage(message).build();
+        } catch (Exception e) {
+            LOG.error(e.getStackTrace(), e);
+            code = 202;
+            message = "操作异常";
+            return BaseResponse.buildResponse().setCode(code).setMessage(message).build();
+        }
+
+    }
 
 
 

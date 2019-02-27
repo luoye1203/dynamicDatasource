@@ -90,10 +90,11 @@
                T.ISARCHIVED   AS "isArchived",
                T.ARCHIVEDREASON AS "archivedReason"
           FROM MODI_R2CGL_FUGITIVE T
-          WHERE T.FUGITIVEID IN
+          WHERE  T.FUGITIVEID IN
           <foreach collection="list" index="index" item="item" open="(" separator="," close=")">
               #{item,jdbcType=VARCHAR}
           </foreach>
+         AND t.ISARCHIVED='0'
 
     </select>
 
@@ -138,6 +139,9 @@
 
     </select>
 
+    <update id="archivedFugitive" parameterType="java.lang.String">
+        UPDATE MODI_R2CGL_FUGITIVE t SET t.ISARCHIVED='1', t.ARCHIVEDREASON=#{archivedReason,jdbcType=VARCHAR},t.ARCHIVEDOPERTATORNO=#{archivedOpertatorNo,jdbcType=VARCHAR}  WHERE t.id=#{id,jdbcType=VARCHAR}
+    </update>
 
 
 </mapper>

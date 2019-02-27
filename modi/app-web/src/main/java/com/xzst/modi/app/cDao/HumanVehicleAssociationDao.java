@@ -42,4 +42,6 @@ public interface HumanVehicleAssociationDao {
 
     public List<String> getFugitiveIdsByDate(@Param("date") String date);
 
+    public void archivedFugitive(@Param("id")String id,@Param("archivedReason")String archivedReason,@Param("archivedOpertatorNo")String archivedOpertatorNo);
+
 }

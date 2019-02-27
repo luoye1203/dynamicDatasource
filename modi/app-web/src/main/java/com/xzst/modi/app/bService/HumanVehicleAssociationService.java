@@ -159,4 +159,8 @@ public class HumanVehicleAssociationService {
 
     }
 
+
+    public void archivedFugitive(String id,String archivedReason,String archivedOpertatorNo){
+        this.humanVehicleAssociationDao.archivedFugitive(id,archivedReason,archivedOpertatorNo);
+    }
 }
