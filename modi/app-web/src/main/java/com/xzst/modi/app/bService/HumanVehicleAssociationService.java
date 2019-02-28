@@ -87,36 +87,36 @@ public class HumanVehicleAssociationService {
         for (Map<String, String> colMap : colsMap) {
             String ename = colMap.get("ENAME");
             String pagebyename = colMap.get("PAGEBYENAME");
-            if (ename.equals("fugitiveNo")) {
-                fugitiveModel.setFugitiveNo(dataMap.get(pagebyename));
+            if (pagebyename.equals("fugitiveNo")) {
+                fugitiveModel.setFugitiveNo(dataMap.get(ename));
             }
-            if (ename.equals("fugitiveId")) {
-                fugitiveModel.setFugitiveId(dataMap.get(pagebyename));
-                fugitiveRelationShiperModel.setFugitiveId(dataMap.get(pagebyename));
+            if (pagebyename.equals("fugitiveId")) {
+                fugitiveModel.setFugitiveId(dataMap.get(ename));
+                fugitiveRelationShiperModel.setFugitiveId(dataMap.get(ename));
             }
-            if (ename.equals("fugitiveName")) {
-                fugitiveModel.setFugitiveName(dataMap.get(pagebyename));
+            if (pagebyename.equals("fugitiveName")) {
+                fugitiveModel.setFugitiveName(dataMap.get(ename));
             }
-            if (ename.equals("relationShip")) {
-                fugitiveRelationShiperModel.setRelationShip(dataMap.get(pagebyename));
+            if (pagebyename.equals("relationShip")) {
+                fugitiveRelationShiperModel.setRelationShip(dataMap.get(ename));
             }
-            if (ename.equals("relationShiperId")) {
-                fugitiveRelationShiperModel.setRelationShiperId(dataMap.get(pagebyename));
+            if (pagebyename.equals("relationShiperId")) {
+                fugitiveRelationShiperModel.setRelationShiperId(dataMap.get(ename));
             }
-            if (ename.equals("trailDesc")) {
-                fugitiveRelationShiperModel.setTrailDesc(dataMap.get(pagebyename));
+            if (pagebyename.equals("trailDesc")) {
+                fugitiveRelationShiperModel.setTrailDesc(dataMap.get(ename));
             }
-            if (ename.equals("trailType")) {
-                fugitiveRelationShiperModel.setTrailType(dataMap.get(pagebyename));
+            if (pagebyename.equals("trailType")) {
+                fugitiveRelationShiperModel.setTrailType(dataMap.get(ename));
             }
-            if (ename.equals("trailTime")) {
-                fugitiveRelationShiperModel.setTrailTime(dataMap.get(pagebyename));
+            if (pagebyename.equals("trailTime")) {
+                fugitiveRelationShiperModel.setTrailTime(dataMap.get(ename));
             }
-            if (ename.equals("lat")) {
-                fugitiveRelationShiperModel.setLat(dataMap.get(pagebyename));
+            if (pagebyename.equals("lat")) {
+                fugitiveRelationShiperModel.setLat(dataMap.get(ename));
             }
-            if (ename.equals("lon")) {
-                fugitiveRelationShiperModel.setLon(dataMap.get(pagebyename));
+            if (pagebyename.equals("lon")) {
+                fugitiveRelationShiperModel.setLon(dataMap.get(ename));
             }
 
         }

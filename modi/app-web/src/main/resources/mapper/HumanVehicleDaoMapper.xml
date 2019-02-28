@@ -26,8 +26,8 @@
         SELECT t.id FROM modi_r2cgl_config  t WHERE t.resultsetid=#{resultSetId,jdbcType=VARCHAR} and t.isdel='0'
     </select>
 
-    <select id="getConfigColsByConfigId" parameterType="java.lang.String">
-        SELECT t.pagebyename,t.ename FROM modi_r2cgl_config_col t WHERE t.configid=#{configId,jdbcType=VARCHAR} ORDER BY t.orderid ;
+    <select id="getConfigColsByConfigId" parameterType="java.lang.String" resultType="java.util.Map">
+        SELECT t.pagebyename,t.ename FROM modi_r2cgl_config_col t WHERE t.configid=#{configId,jdbcType=VARCHAR} ORDER BY t.orderid
 
     </select>
 
@@ -62,16 +62,16 @@
 
     <insert id="addFugitive" parameterType="com.xzst.modi.app.dModel.p2cgl.FugitiveModel">
         INSERT INTO MODI_R2CGL_FUGITIVE
-          (ID,                              FUGITIVENO,                    FUGITIVEID,                   FUGITIVENAME,                   ISARCHIVED,           )
+          (ID,                              FUGITIVENO,                    FUGITIVEID,                   FUGITIVENAME,                   ISARCHIVED,  INSERTTIME         )
         VALUES
-          (modi_r2cgl_fugitive_seq.nextval,#{fugitiveNo,jdbcType=VARCHAR},#{fugitiveId,jdbcType=VARCHAR},#{fugitiveName,jdbcType=VARCHAR},      '0' ,         )
+          (modi_r2cgl_fugitive_seq.nextval,#{fugitiveNo,jdbcType=VARCHAR},#{fugitiveId,jdbcType=VARCHAR},#{fugitiveName,jdbcType=VARCHAR},      '0' ,   sysdate      )
     </insert>
 
     <insert id="addFugitiveRelationShiper" parameterType="com.xzst.modi.app.dModel.p2cgl.FugitiveRelationShiperModel">
         INSERT INTO MODI_R2CGL_FUGITIVE_RSER
-              (ID,                                  FUGITIVEID,                     RELATIONSHIP,                       RELATIONSHIPERID,                 TRAILDESC,                        TRAILTYPE,                    TRAILTIME,                      LAT,                           LON)
+              (ID,                                  FUGITIVEID,                     RELATIONSHIP,                       RELATIONSHIPERID,                 TRAILDESC,                        TRAILTYPE,                    TRAILTIME,                      LAT,                           LON       , INSERTTIME  )
             VALUES
-              (MODI_R2CGL_FUGITIVE_RSER_SEQ.NEXTVAL,#{fugitiveId,jdbcType=VARCHAR},#{relationShip,jdbcType=VARCHAR},#{relationShiperId,jdbcType=VARCHAR},#{trailDesc,jdbcType=VARCHAR}, #{trailType,jdbcType=VARCHAR}, #{trailTime,jdbcType=VARCHAR},#{lat,jdbcType=VARCHAR}, #{lon,jdbcType=VARCHAR},                     )
+              (MODI_R2CGL_FUGITIVE_RSER_SEQ.NEXTVAL,#{fugitiveId,jdbcType=VARCHAR},#{relationShip,jdbcType=VARCHAR},#{relationShiperId,jdbcType=VARCHAR},#{trailDesc,jdbcType=VARCHAR}, #{trailType,jdbcType=VARCHAR}, #{trailTime,jdbcType=VARCHAR},#{lat,jdbcType=VARCHAR}, #{lon,jdbcType=VARCHAR},        sysdate             )
     </insert>
 
 

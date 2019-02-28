@@ -22,7 +22,7 @@
         <!-- 数据库超过25000秒仍未响应则超时 -->
         <setting name="defaultStatementTimeout" value="25000" />
         <!-- 打印查询语句 -->
-        <!--<setting name="logImpl" value="STDOUT_LOGGING" />-->
+        <setting name="logImpl" value="STDOUT_LOGGING" />
         <!-- 当返回数据类型为map，设置callSettersOnNulls会把值为null的key也返回 -->
         <setting name="callSettersOnNulls" value="true"/>
     </settings>

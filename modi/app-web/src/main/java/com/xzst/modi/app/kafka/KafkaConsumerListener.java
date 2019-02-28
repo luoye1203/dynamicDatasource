@@ -31,7 +31,7 @@ public class KafkaConsumerListener {
 				logger.info(message.toString());
 				kafkaMessageProcessService.preProcessMessage(message);
 			} catch (Exception e) {
-				logger.error("data为:"+ message+ "  数据格式无效,请查证...");
+				e.printStackTrace();
 			}
 
 		}else{
