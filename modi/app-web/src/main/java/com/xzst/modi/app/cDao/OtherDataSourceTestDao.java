@@ -7,7 +7,7 @@ import java.util.List;
 import java.util.Map;
 
 @Repository
-@DataSource("slave1")
+@DataSource("ajfl")
 public interface OtherDataSourceTestDao {
 
     public List<Map<String,String>> getTest();
