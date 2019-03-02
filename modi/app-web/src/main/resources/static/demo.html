@@ -16,7 +16,7 @@ Welcome<br/>
 
     //判断当前浏览器是否支持WebSocket
     if('WebSocket' in window){
-        websocket = new WebSocket("ws://10.125.142.192:8080/websocket?userId=5711358834181121&roleN1=0002");
+        websocket = new WebSocket("ws://localhost:8080/modi-websocket?userId=5711358834181121&roleNo=0002");
     }
     else{
         alert('Not support websocket')

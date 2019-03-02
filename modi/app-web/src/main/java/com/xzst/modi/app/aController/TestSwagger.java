@@ -1,8 +1,9 @@
 package com.xzst.modi.app.aController;
 
 
+import com.xzst.modi.app.cDao.OtherDataSourceTestDao;
 import com.xzst.modi.app.dModel.BaseResponse;
-import com.xzst.modi.app.hConfig.HVAcolConfigProperties;
+import com.xzst.modi.app.hConfig.FrontendConfigPorperties;
 import com.xzst.modi.app.hConfig.WebsocketInformTypeConifg;
 import io.swagger.annotations.*;
 import org.apache.log4j.Logger;
@@ -11,6 +12,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.util.List;
 
 @RestController
 @Api("测试swagger集成服务")
@@ -21,6 +24,12 @@ public class TestSwagger {
 
     @Autowired
     private WebsocketInformTypeConifg websocketInformTypeConifg;
+
+    @Autowired
+    private FrontendConfigPorperties frontendConfigPorperties;
+
+    @Autowired
+    private OtherDataSourceTestDao otherDataSourceTestDao;
 
 
     @RequestMapping(value = "/send", method = RequestMethod.GET)
@@ -34,7 +43,9 @@ public class TestSwagger {
     public BaseResponse sendKafka(@RequestParam String message) {
         try {
             logger.info("测试成功");
-            logger.info(websocketInformTypeConifg);
+            List list= otherDataSourceTestDao.getTest();
+            logger.info(list);
+            logger.info(frontendConfigPorperties);
         } catch (Exception e) {
             logger.error("发送kafka失败", e);
             return BaseResponse.buildResponse().setCode(200).setMessage("发送失败").build();

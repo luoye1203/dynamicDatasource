@@ -7,7 +7,7 @@ import org.springframework.stereotype.Component;
 import java.util.Map;
 
 @Component
-@ConfigurationProperties(prefix = "other.websocketInformType")
+@ConfigurationProperties(prefix = "other.websocketinformtype")
 public class WebsocketInformTypeConifg {
     private Map<String,String > informType;
 

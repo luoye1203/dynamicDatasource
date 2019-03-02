@@ -1,24 +1,30 @@
 spring:
   datasource:
-    type: com.zaxxer.hikari.HikariDataSource
-    poolName: hikariPCpool
-    connection-test-query: select 1 from dual
-    hikari:
-        connection-timeout: 30000
-        idle-timeout: 10000
-        max-lifetime: 1800000
-        maximum-pool-size: 10
-        autoCommit: false
-    driver-class-name: oracle.jdbc.driver.OracleDriver
-    url: jdbc:oracle:thin:@53.80.6.37:1521:orcl
-    username: xzst
-    password: xzst
-
+    master:
+      password: xzst
+      url: jdbc:oracle:thin:@53.80.6.37:1521:orcl
+      driver-class-name: oracle.jdbc.driver.OracleDriver
+      username: xzst
+      type: com.zaxxer.hikari.HikariDataSource
+    cluster:
+    - key: slave1
+      password: qprmsEFhnFKVRM9f
+      url: jdbc:oracle:thin:@10.125.129.66:1521:xtba
+      idle-timeout: 20000
+      driver-class-name: oracle.jdbc.driver.OracleDriver
+      username: xtba_qbpt
+      type: com.zaxxer.hikari.HikariDataSource
+    - key: slave2
+      password: 198412
+      url: jdbc:mysql://localhost:3306/lht_test?useUnicode=true&characterEncoding=UTF-8&autoReconnect=true&useSSL=false
+      idle-timeout: 20000
+      driver-class-name: com.mysql.jdbc.Driver
+      username: root
+      type: com.zaxxer.hikari.HikariDataSource
   kafka:
     consumer:
       bootstrap-servers: 53.80.6.45:9092,53.80.6.46:9092,53.80.6.47:9092,53.80.6.48:9092
       enable-auto-commit: true
-      auto-commit-interval: 1
       auto-offset-reset: latest
       group-id: modi_g_1
     producer:
@@ -72,6 +78,8 @@ shumo:
   #获取结果集的列信息
   resultSetColInfoUrl: "http://53.80.6.36:7047/task/result/columns?resultId="
 
+frontend-config:
+  toShuMiaoUrl: "http://53.80.6.46:8060"
 
 
 

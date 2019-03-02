@@ -14,7 +14,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 
 @WebFilter(filterName = "loginFilter",
-        urlPatterns = { "/kafka/*"})
+        urlPatterns = { "/model/*"})
 //        urlPatterns = {"/swagger/*"})
 public class LoginFilter implements Filter {
     private final Logger logger = Logger.getLogger(this.getClass());

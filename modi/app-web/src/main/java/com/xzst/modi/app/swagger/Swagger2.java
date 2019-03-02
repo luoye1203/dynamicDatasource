@@ -115,6 +115,21 @@ public class Swagger2 {
                 .apiInfo(detailInfo("kafka模拟发送数据"));
     }
 
+    @Bean
+    public Docket frontendConfig() {
+        return new Docket(DocumentationType.SWAGGER_2)
+                .groupName("前端配置")
+                .genericModelSubstitutes(DeferredResult.class)
+//                .genericModelSubstitutes(ResponseEntity.class)
+                .useDefaultResponseMessages(false)
+                .forCodeGeneration(true)
+                .pathMapping("/")
+                .select()
+                .paths(PathSelectors.regex("/frontend/.*"))//过滤的接口
+                .build()
+//                .globalOperationParameters(getTokenParam())
+                .apiInfo(detailInfo("前端配置"));
+    }
 
 
     private ApiInfo detailInfo(String title) {

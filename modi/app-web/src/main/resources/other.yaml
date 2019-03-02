@@ -1,6 +1,6 @@
 other:
   #在逃人员页面配置需要关注的字段
-  havConfig:
+  hav-config:
     focusCol:
       - fugitiveNo: 在逃人员编号
       - fugitiveId: 在逃人员身份证
@@ -15,7 +15,7 @@ other:
 
 
   #websocket通知前端类型
-  websocketInformType:
-    informType:
+  websocketinformtype:
+    informtype:
       1: 人车关联
       2: 测试
