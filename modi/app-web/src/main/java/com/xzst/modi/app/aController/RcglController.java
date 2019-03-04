@@ -1,10 +1,10 @@
 package com.xzst.modi.app.aController;
 
-import com.xzst.modi.app.bService.HumanVehicleAssociationService;
+import com.xzst.modi.app.bService.RcglService;
 import com.xzst.modi.app.dModel.BaseResponse;
 import com.xzst.modi.app.dModel.p2cgl.FugitiveModel;
 import com.xzst.modi.app.dModel.p2cgl.FugitiveModelPageParams;
-import com.xzst.modi.app.dModel.p2cgl.HVAConfigModel;
+import com.xzst.modi.app.dModel.p2cgl.RcglConfigModel;
 import com.xzst.modi.app.gCommon.JWTUtil;
 import com.xzst.modi.app.gCommon.PageModel;
 import io.swagger.annotations.*;
@@ -22,12 +22,12 @@ import java.util.Map;
  */
 @RestController
 @RequestMapping("p2cgl")
-public class HumanVehicleAssociationController {
+public class RcglController {
 
-    private static final Logger LOG=Logger.getLogger( HumanVehicleAssociationController.class);
+    private static final Logger LOG=Logger.getLogger( RcglController.class);
 
     @Autowired
-    private HumanVehicleAssociationService humanVehicleAssociationService;
+    private RcglService rcglService;
 
     @Autowired
     private JWTUtil jwtUtil;
@@ -50,11 +50,11 @@ public class HumanVehicleAssociationController {
 
         int code = 200;
         String message = "查询成功";
-        HVAConfigModel reData = null;
+        RcglConfigModel reData = null;
 
         try {
 
-            reData =humanVehicleAssociationService.getConfig();
+            reData = rcglService.getConfig();
 
             if (reData == null ) {
                 code = 201;
@@ -81,24 +81,24 @@ public class HumanVehicleAssociationController {
     @ApiOperation(value = "添加配置", notes = "添加配置")
     @ApiImplicitParams(
             {
-                    @ApiImplicitParam(name = "hvaConfigModel", paramType = "body", value = "参数", dataType = "HVAConfigModel")
+                    @ApiImplicitParam(name = "rcglConfigModel", paramType = "body", value = "参数", dataType = "RcglConfigModel")
             }
     )
     @ApiResponses(value = {@ApiResponse(code = 201, message = "数据已存在"), @ApiResponse(code = 202, message = "操作异常")})
-    public BaseResponse addConfig(@RequestBody HVAConfigModel hvaConfigModel) {
+    public BaseResponse addConfig(@RequestBody RcglConfigModel rcglConfigModel) {
 
         int code = 200;
         String message = "添加成功";
         try {
 
-            HVAConfigModel model=humanVehicleAssociationService.getConfig();
+            RcglConfigModel model= rcglService.getConfig();
             if(model!=null){
                 message = "数据已存在";
                 code = 202;
                 return BaseResponse.buildResponse().setCode(code).setMessage(message).build();
             }
 
-            humanVehicleAssociationService.addConfig(hvaConfigModel);
+            rcglService.addConfig(rcglConfigModel);
             return BaseResponse.buildResponse().setCode(code).setMessage(message).build();
         } catch (Exception e) {
             LOG.error(e.getStackTrace(), e);
@@ -121,11 +121,11 @@ public class HumanVehicleAssociationController {
 
         int code = 200;
         String message = "操作成功";
-        HVAConfigModel reData = null;
+        RcglConfigModel reData = null;
 
         try {
 
-            humanVehicleAssociationService.delConfig(configId);
+            rcglService.delConfig(configId);
 
             return BaseResponse.buildResponse().setObj(reData).setCode(code).setMessage(message).build();
         } catch (Exception e) {
@@ -155,7 +155,7 @@ public class HumanVehicleAssociationController {
 
         try {
 
-            reData =humanVehicleAssociationService.getPageFocusCols();
+            reData = rcglService.getPageFocusCols();
 
             if (reData == null ) {
                 code = 201;
@@ -190,7 +190,7 @@ public class HumanVehicleAssociationController {
 
         try {
 
-            reData =humanVehicleAssociationService.getHvaTop20(date);
+            reData = rcglService.getHvaTop20(date);
 
             if (reData == null || reData.size()<1 ) {
                 code = 201;
@@ -227,7 +227,7 @@ public class HumanVehicleAssociationController {
 
         try {
 
-            reData =humanVehicleAssociationService.getFugitiveModels(params);
+            reData = rcglService.getFugitiveModels(params);
 
             if (reData == null || reData.getRecords().size()==0 ) {
                 code = 201;
@@ -260,7 +260,7 @@ public class HumanVehicleAssociationController {
 
         try {
             String yhbh=jwtUtil.getYhbhFromToken();
-            humanVehicleAssociationService.archivedFugitive(id,archivedReason,yhbh);
+            rcglService.archivedFugitive(id,archivedReason,yhbh);
 
 
             return BaseResponse.buildResponse().setCode(code).setMessage(message).build();

@@ -15,7 +15,7 @@ public class KafkaMessageProcessService {
     private final Logger logger = Logger.getLogger(this.getClass());
 
     @Autowired
-    private HumanVehicleAssociationService humanVehicleAssociationService;
+    private RcglService rcglService;
     @Autowired
     private KafkaDao kafkaDao;
 
@@ -29,7 +29,7 @@ public class KafkaMessageProcessService {
         for (Map<String,String> map : resultsetIds) {
 
             if("人车关联".equals(map.get("TYPE"))&&resultSetId.equals(map.get("RESULTSETID"))){
-                humanVehicleAssociationService.insertMessageFromKafka(consumerMessageBean);
+                rcglService.insertMessageFromKafka(consumerMessageBean);
             }
 
 

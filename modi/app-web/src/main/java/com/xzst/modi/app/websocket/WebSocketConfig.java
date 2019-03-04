@@ -1,13 +1,10 @@
 package com.xzst.modi.app.websocket;
 
 
-import net.bytebuddy.implementation.bind.annotation.RuntimeType;
 import org.apache.catalina.session.StandardSessionFacade;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnNotWebApplication;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnWebApplication;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.stereotype.Component;
 import org.springframework.web.socket.server.standard.ServerEndpointExporter;
 
 import javax.servlet.http.HttpSession;
@@ -15,10 +12,9 @@ import javax.websocket.HandshakeResponse;
 import javax.websocket.server.HandshakeRequest;
 import javax.websocket.server.ServerEndpointConfig;
 import javax.websocket.server.ServerEndpointConfig.Configurator;
-import java.lang.annotation.Retention;
-import java.lang.annotation.RetentionPolicy;
 
 @Configuration
+@Component
 public class WebSocketConfig extends Configurator {
 
 	@Override
@@ -54,12 +50,12 @@ public class WebSocketConfig extends Configurator {
 
 
 	//这个对象说一下，springboot开发时使用,打包时注释掉
-
-	@Bean
-	public ServerEndpointExporter serverEndpointExporter() {
-
-		return new ServerEndpointExporter();
-	}
+//
+//	@Bean
+//	public ServerEndpointExporter serverEndpointExporter() {
+//
+//		return new ServerEndpointExporter();
+//	}
 
 
 

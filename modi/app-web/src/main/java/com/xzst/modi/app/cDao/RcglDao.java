@@ -9,18 +9,18 @@ import java.util.List;
 import java.util.Map;
 
 @Repository
-public interface HumanVehicleAssociationDao {
+public interface RcglDao {
 
-    public HVAConfigModel getConfig( );
-    public List<HVAConfigColModel> getConfigColById(@Param("configId")String configId);
-    public void addConfig(HVAConfigModel param);
+    public RcglConfigModel getConfig( );
+    public List<RcglConfigColModel> getConfigColById(@Param("configId")String configId);
+    public void addConfig(RcglConfigModel param);
     public void delConfigById(@Param("configId")String configId);
-    public void updateConfig(HVAConfigModel param);
+    public void updateConfig(RcglConfigModel param);
 
     public String getConfigIdFromSeq();
     public String getConfigIdByResultSetId(@Param("resultSetId")String resultSetId);
 
-    public void addConfigCol(HVAConfigColModel param);
+    public void addConfigCol(RcglConfigColModel param);
 
 
     public List<Map<String,String>> getConfigColsByConfigId(@Param("configId")String configId);

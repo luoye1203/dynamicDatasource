@@ -1,11 +1,11 @@
 package com.xzst.modi.app.bService;
 
 
-import com.xzst.modi.app.cDao.HumanVehicleAssociationDao;
+import com.xzst.modi.app.cDao.RcglDao;
 import com.xzst.modi.app.dModel.ConsumerMessageBean;
 import com.xzst.modi.app.dModel.p2cgl.*;
 import com.xzst.modi.app.gCommon.PageModel;
-import com.xzst.modi.app.hConfig.HVAcolConfigProperties;
+import com.xzst.modi.app.hConfig.RcglColConfigProperties;
 import com.xzst.modi.app.websocket.WebSocket;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,26 +17,26 @@ import java.util.List;
 import java.util.Map;
 
 @Service
-public class HumanVehicleAssociationService {
+public class RcglService {
 
-    private static final Logger LOG = Logger.getLogger(HumanVehicleAssociationService.class);
-
-    @Autowired
-    private HVAcolConfigProperties hvAcolConfigProperties;
+    private static final Logger LOG = Logger.getLogger(RcglService.class);
 
     @Autowired
-    private HumanVehicleAssociationDao humanVehicleAssociationDao;
+    private RcglColConfigProperties rcglColConfigProperties;
+
+    @Autowired
+    private RcglDao humanVehicleAssociationDao;
 
     @Autowired
     private WebSocket webSocket;
 
 
 
-    public HVAConfigModel getConfig() {
-        HVAConfigModel configModel = humanVehicleAssociationDao.getConfig();
+    public RcglConfigModel getConfig() {
+        RcglConfigModel configModel = humanVehicleAssociationDao.getConfig();
         if (configModel != null) {
             String configId = configModel.getId();
-            List<HVAConfigColModel> configColModels = humanVehicleAssociationDao.getConfigColById(configId);
+            List<RcglConfigColModel> configColModels = humanVehicleAssociationDao.getConfigColById(configId);
             configModel.setColModel(configColModels);
 
         }
@@ -44,13 +44,13 @@ public class HumanVehicleAssociationService {
     }
 
     @Transactional(propagation = Propagation.REQUIRED, rollbackFor = {Exception.class, RuntimeException.class})
-    public void addConfig(HVAConfigModel param) {
+    public void addConfig(RcglConfigModel param) {
         String configId = humanVehicleAssociationDao.getConfigIdFromSeq();
         param.setId(configId);
         humanVehicleAssociationDao.addConfig(param);
-        List<HVAConfigColModel> colList = param.getColModel();
+        List<RcglConfigColModel> colList = param.getColModel();
 
-        for (HVAConfigColModel model : colList) {
+        for (RcglConfigColModel model : colList) {
             model.setConfigId(configId);
             humanVehicleAssociationDao.addConfigCol(model);
 //            throw new RuntimeException("xxx");
@@ -61,14 +61,14 @@ public class HumanVehicleAssociationService {
         humanVehicleAssociationDao.delConfigById(configId);
     }
 
-    public void updateConfig(HVAConfigModel param) {
+    public void updateConfig(RcglConfigModel param) {
         humanVehicleAssociationDao.updateConfig(param);
     }
 
 
     public List<Map<String, String>> getPageFocusCols() {
 
-        return hvAcolConfigProperties.getFocusCol();
+        return rcglColConfigProperties.getFocusCol();
     }
 
 

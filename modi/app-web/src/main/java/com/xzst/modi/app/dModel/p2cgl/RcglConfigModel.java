@@ -2,7 +2,7 @@ package com.xzst.modi.app.dModel.p2cgl;
 
 import java.util.List;
 
-public class HVAConfigModel {
+public class RcglConfigModel {
 
     private String id;
     private String resultSetId;
@@ -12,7 +12,7 @@ public class HVAConfigModel {
     private String operteTime;
     private String isDel;
 
-    private List<HVAConfigColModel> colModel;
+    private List<RcglConfigColModel> colModel;
 
 
 
@@ -67,11 +67,11 @@ public class HVAConfigModel {
         this.resultSetName = resultSetName;
     }
 
-    public List<HVAConfigColModel> getColModel() {
+    public List<RcglConfigColModel> getColModel() {
         return colModel;
     }
 
-    public void setColModel(List<HVAConfigColModel> colModel) {
+    public void setColModel(List<RcglConfigColModel> colModel) {
         this.colModel = colModel;
     }
 

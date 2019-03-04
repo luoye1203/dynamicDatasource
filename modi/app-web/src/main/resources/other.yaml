@@ -1,6 +1,6 @@
 other:
   #在逃人员页面配置需要关注的字段
-  hav-config:
+  rcgl-config:
     focusCol:
       - fugitiveNo: 在逃人员编号
       - fugitiveId: 在逃人员身份证

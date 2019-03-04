@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.xzst.modi.app.cDao.HumanVehicleAssociationDao">
+<mapper namespace="com.xzst.modi.app.cDao.RcglDao">
 
-    <select id="getConfig" resultType="com.xzst.modi.app.dModel.p2cgl.HVAConfigModel" >
+    <select id="getConfig" resultType="com.xzst.modi.app.dModel.p2cgl.RcglConfigModel" >
         SELECT ID,
                    OPRATORNO,
                    TO_CHAR(OPERTETIME, 'yyyy-mm-dd hh24:mi:ss') AS OPERTETIME,
@@ -12,7 +12,7 @@
           FROM MODI_R2CGL_CONFIG where isdel='0'
     </select>
 
-    <select id="getConfigColById" resultType="com.xzst.modi.app.dModel.p2cgl.HVAConfigColModel" >
+    <select id="getConfigColById" resultType="com.xzst.modi.app.dModel.p2cgl.RcglConfigColModel" >
        SELECT CONFIGID, PAGEBYNAME, PAGEBYENAME, ENAME, CNAME, ORDERID
                 FROM MODI_R2CGL_CONFIG_COL  where  CONFIGID=#{configId,jdbcType=VARCHAR}
     </select>
@@ -37,7 +37,7 @@
     </select>
 
 
-    <insert id="addConfig" parameterType="com.xzst.modi.app.dModel.p2cgl.HVAConfigModel">
+    <insert id="addConfig" parameterType="com.xzst.modi.app.dModel.p2cgl.RcglConfigModel">
 
         INSERT INTO MODI_R2CGL_CONFIG
         (ID,                       OPRATORNO,                   OPERTETIME,     RESULTSETID,                      RESULTSETNAME,                ISDEL) values (
@@ -46,7 +46,7 @@
     </insert>
 
 
-    <insert id="addConfigCol" parameterType="com.xzst.modi.app.dModel.p2cgl.HVAConfigColModel">
+    <insert id="addConfigCol" parameterType="com.xzst.modi.app.dModel.p2cgl.RcglConfigColModel">
 
         INSERT INTO MODI_R2CGL_CONFIG_col
         (CONFIGID,                        PAGEBYNAME,                   PAGEBYENAME,                      ENAME,                      CNAME,      ORDERID) values (

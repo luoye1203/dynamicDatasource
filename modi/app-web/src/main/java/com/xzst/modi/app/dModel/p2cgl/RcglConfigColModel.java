@@ -1,6 +1,6 @@
 package com.xzst.modi.app.dModel.p2cgl;
 
-public class HVAConfigColModel {
+public class RcglConfigColModel {
 
     private String configId;
     private String pagebyname;

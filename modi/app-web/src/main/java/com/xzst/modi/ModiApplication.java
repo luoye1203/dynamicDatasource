@@ -9,6 +9,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
 import org.springframework.boot.autoconfigure.orm.jpa.HibernateJpaAutoConfiguration;
 import org.springframework.boot.web.servlet.ServletComponentScan;
+import org.springframework.boot.web.servlet.support.SpringBootServletInitializer;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Import;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
@@ -20,7 +21,7 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 @EnableTransactionManagement
 @MapperScan("com.xzst.modi.app.cDao")
 @ServletComponentScan //使@WebFilter 起作用
-public class ModiApplication  {
+public class ModiApplication extends SpringBootServletInitializer {
 
     @Bean
     public DynamicDataSourceAnnotationAdvisor dynamicDatasourceAnnotationAdvisor() {

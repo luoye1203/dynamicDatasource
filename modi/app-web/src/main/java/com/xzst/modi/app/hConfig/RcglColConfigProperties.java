@@ -7,8 +7,8 @@ import java.util.List;
 import java.util.Map;
 
 @Component
-@ConfigurationProperties(prefix = "other.hav-config")
-public class HVAcolConfigProperties {
+@ConfigurationProperties(prefix = "other.rcgl-config")
+public class RcglColConfigProperties {
     private List<Map<String, String>> focusCol;
 
 
