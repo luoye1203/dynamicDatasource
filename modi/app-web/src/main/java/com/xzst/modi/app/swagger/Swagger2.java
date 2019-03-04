@@ -132,6 +132,23 @@ public class Swagger2 {
     }
 
 
+    @Bean
+    public Docket ajybfx() {
+        return new Docket(DocumentationType.SWAGGER_2)
+                .groupName("案件月报分析")
+                .genericModelSubstitutes(DeferredResult.class)
+//                .genericModelSubstitutes(ResponseEntity.class)
+                .useDefaultResponseMessages(false)
+                .forCodeGeneration(true)
+                .pathMapping("/")
+                .select()
+                .paths(PathSelectors.regex("/ajybfx/.*"))//过滤的接口
+                .build()
+//                .globalOperationParameters(getTokenParam())
+                .apiInfo(detailInfo("案件月报分析"));
+    }
+
+
     private ApiInfo detailInfo(String title) {
         return new ApiInfoBuilder()
                 .title(title)//大标题
